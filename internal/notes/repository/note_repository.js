@@ -1,4 +1,6 @@
 class NoteRepository {
+    static dbPath = './db/notes.json'
+
     constructor () {
         this.notes = []
     }
@@ -61,7 +63,7 @@ class NoteRepository {
             }
         }
 
-        this.notes[index] = note
+        this.notes[index] = { ...this.notes[index], ...note }
 
         return {
             status: 'success',
@@ -74,10 +76,12 @@ class NoteRepository {
 
         if (filtered.length === this.notes.length) {
             return {
-                status: 'success',
+                status: 'fail',
                 message: 'catatan gagal dihapus. id catatan tidak ditemukan'
             }
         }
+
+        this.notes = filtered
 
         return {
             status: 'success',

@@ -5,7 +5,6 @@ class NoteHandler {
 
     fetchAll () {
         return (req, h) => {
-            console.log(this.noteService)
             const resp = this.noteService.getAllNotes()
 
             const hresp = h.response(resp)
@@ -16,7 +15,7 @@ class NoteHandler {
 
     fetchByID () {
         return (req, h) => {
-            const { id } = req.param
+            const { id } = req.params
 
             const resp = this.noteService.getNoteByID(id)
 
@@ -57,7 +56,26 @@ class NoteHandler {
 
     updateNote () {
         return (req, h) => {
+            const { id } = req.params
+            const { title, tags, body } = req.payload
 
+            const updatedNote = {
+                title,
+                tags,
+                body
+            }
+
+            const resp = this.noteService.updateNote(id, updatedNote)
+
+            const hresp = h.response(resp)
+
+            if (resp.status === 'success') {
+                hresp.code(200)
+            } else {
+                hresp.code(500)
+            }
+
+            return hresp
         }
     }
 

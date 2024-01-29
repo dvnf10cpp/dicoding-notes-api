@@ -22,6 +22,8 @@ class NoteService {
     }
 
     updateNote (id, note) {
+        note.updatedAt = new Date().toISOString()
+
         return this.noteRepo.updateNote(id, note)
     }
 
